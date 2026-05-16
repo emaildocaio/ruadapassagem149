@@ -1,13 +1,24 @@
 ---
 import { Image } from 'astro:assets';
-import heroImg from '../assets/fotos/Gemini_Generated_Image_b8zw8hb8zw8hb8zw.png';
+import heroGemini from '../assets/fotos/Gemini_Generated_Image_b8zw8hb8zw8hb8zw.png';
+import heroReal from '../assets/fotos/apto-botafogo-58.jpg';
+
+interface Props {
+  variant?: 'gemini' | 'real';
+}
+
+const { variant = 'gemini' } = Astro.props;
+const heroImg = variant === 'real' ? heroReal : heroGemini;
+const heroAlt = variant === 'real'
+  ? 'Sala integrada com jantar, cozinha americana e sofá em primeiro plano, com plantas pendentes da estrutura metálica suspensa e teto em cimento queimado'
+  : 'Living integrado com jantar, sofá e cozinha americana, com estrutura metálica suspensa, plantas pendentes e teto em cimento queimado';
 ---
 
 <section class="hero" data-hero aria-label="Apresentação do imóvel">
   <div class="hero__media" data-hero-media>
     <Image
       src={heroImg}
-      alt="Living integrado com jantar, sofá e cozinha americana, com estrutura metálica suspensa, plantas pendentes e teto em cimento queimado"
+      alt={heroAlt}
       widths={[800, 1280, 1920, 2560]}
       sizes="100vw"
       loading="eager"
