@@ -93,14 +93,10 @@
 }
 
 /* SplitText helpers */
-.reveal-line,
 .reveal-word,
 .hero-char {
   display: inline-block;
   will-change: transform, opacity;
-}
-.reveal-line {
-  overflow: hidden;
 }
 
 /* Map markers (MapLibre) */

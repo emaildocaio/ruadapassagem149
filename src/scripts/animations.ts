@@ -79,10 +79,13 @@ export function initRevealOnScroll() {
   if (reduceMotion) return;
 
   // Text reveal: word-by-word stagger via SplitText
+  // Important: split only by words (NOT lines) — splitting into lines wraps
+  // each line in an inline-block div that locks layout based on measurements
+  // at split-time. If fonts load late or the viewport reflows, words become
+  // orphaned (ex.: a single word landing alone on its own line).
   document.querySelectorAll<HTMLElement>('[data-reveal="text"]').forEach((el) => {
     const split = new SplitText(el, {
-      type: 'lines,words',
-      linesClass: 'reveal-line',
+      type: 'words',
       wordsClass: 'reveal-word',
     });
     gsap.set(el, { opacity: 1 });
