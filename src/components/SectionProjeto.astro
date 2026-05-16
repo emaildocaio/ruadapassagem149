@@ -1,0 +1,195 @@
+---
+import { Image } from 'astro:assets';
+import projetoImg from '../assets/fotos/apto-botafogo-56.jpg';
+---
+
+<section class="projeto" aria-labelledby="projeto-title">
+  <div class="projeto__inner">
+    <div class="projeto__text">
+      <span class="projeto__eyebrow" data-reveal="fade">
+        <span class="projeto__num">01</span>
+        <span class="projeto__divider"></span>
+        <span>O projeto</span>
+      </span>
+
+      <h2 id="projeto-title" class="projeto__title" data-reveal="text">
+        Concreto, madeira, luz<br />e silêncio.
+      </h2>
+
+      <p class="projeto__body" data-reveal="text">
+        Recebemos o apartamento em 2023, prédio recém-entregue, e reformamos
+        o imóvel com o arquiteto Rafael Ramos — marcenaria autoral, estrutura
+        metálica negra, paleta natural. Cada detalhe foi pensado para receber
+        a luz natural: Botafogo é luminoso, e essa casa abraça isso.
+      </p>
+
+      <ul class="projeto__materials" data-reveal="fade">
+        <li>
+          <span class="projeto__mat-label">Marcenaria</span>
+          <span class="projeto__mat-value">Carvalho Hannover, cinza e verde</span>
+        </li>
+        <li>
+          <span class="projeto__mat-label">Tetos</span>
+          <span class="projeto__mat-value">Cimento queimado</span>
+        </li>
+        <li>
+          <span class="projeto__mat-label">Pisos</span>
+          <span class="projeto__mat-value">Porcelanato grande formato cinza claro</span>
+        </li>
+        <li>
+          <span class="projeto__mat-label">Bancada cozinha</span>
+          <span class="projeto__mat-value">Bianco Absoluto Ultracompact 12mm</span>
+        </li>
+        <li>
+          <span class="projeto__mat-label">Bancadas banhos</span>
+          <span class="projeto__mat-value">Branco Prime (lavabo, suíte master, suíte 02)</span>
+        </li>
+        <li>
+          <span class="projeto__mat-label">Iluminação</span>
+          <span class="projeto__mat-value">Trilhos de LED + arandelas pontuais</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="projeto__image-wrap">
+      <div class="projeto__image" data-reveal="fade">
+        <Image
+          src={projetoImg}
+          alt="Jantar com mesa de mármore branco, cadeiras de couro caramelo e teto em cimento queimado. Prateleiras autorais em carvalho com estrutura metálica negra"
+          widths={[480, 800, 1200]}
+          sizes="(max-width: 900px) 100vw, 45vw"
+          format="avif"
+          quality={82}
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .projeto {
+    background: var(--color-bone);
+    color: var(--color-ink);
+    padding: clamp(5rem, 12vh, 10rem) 0;
+    position: relative;
+  }
+
+  .projeto__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 3rem);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(3rem, 6vw, 6rem);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .projeto__inner {
+      grid-template-columns: 1.1fr 1fr;
+    }
+  }
+
+  .projeto__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-stone);
+    margin-bottom: 2.25rem;
+  }
+
+  .projeto__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 350;
+    font-size: 1.5rem;
+    color: var(--color-bronze);
+    letter-spacing: 0;
+    font-variation-settings: "opsz" 36, "SOFT" 60;
+  }
+
+  .projeto__divider {
+    width: 40px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.4;
+  }
+
+  .projeto__title {
+    font-size: clamp(2rem, 4.5vw, 4rem);
+    line-height: 1.02;
+    margin-bottom: 2.25rem;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+
+  .projeto__body {
+    font-size: clamp(1rem, 1.15vw, 1.15rem);
+    line-height: 1.65;
+    max-width: 40ch;
+    color: var(--color-stone-deep);
+    margin-bottom: 2.75rem;
+  }
+
+  .projeto__materials {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    border-top: 1px solid color-mix(in oklch, var(--color-ink), transparent 88%);
+  }
+
+  .projeto__materials li {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: 1rem;
+    padding: 0.4rem 0;
+    align-items: baseline;
+    border-bottom: 1px solid color-mix(in oklch, var(--color-ink), transparent 92%);
+  }
+
+  .projeto__mat-label {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+
+  .projeto__mat-value {
+    font-size: 0.78rem;
+    color: var(--color-stone-deep);
+    line-height: 1.35;
+  }
+
+  .projeto__image-wrap {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--color-mist);
+  }
+
+  .projeto__image {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .projeto__image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .projeto__materials li {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+      padding: 0.85rem 0;
+    }
+  }
+</style>

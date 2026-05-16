@@ -1,0 +1,237 @@
+---
+import { Image } from 'astro:assets';
+import heroImg from '../assets/fotos/apto-botafogo-54.jpg';
+---
+
+<section class="hero" data-hero aria-label="Apresentação do imóvel">
+  <div class="hero__media" data-hero-media>
+    <Image
+      src={heroImg}
+      alt="Vista ampla da sala integrada: jantar, cozinha americana com marcenaria autoral e sala de estar"
+      widths={[800, 1280, 1920, 2560]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+      format="avif"
+      quality={82}
+    />
+    <div class="hero__veil"></div>
+  </div>
+
+  <header class="hero__header">
+    <span class="hero__mark">149 · Rua da Passagem</span>
+    <span class="hero__mark hero__mark--right">Botafogo · Rio de Janeiro</span>
+  </header>
+
+  <div class="hero__content">
+    <h1 class="hero__title">
+      <span class="hero__title-line" data-hero-line>A casa que projetamos</span>
+      <span class="hero__title-line hero__title-line--italic" data-hero-line>para morar.</span>
+    </h1>
+    <p class="hero__sub" data-hero-sub>Pronta para ser a sua.</p>
+    <div class="hero__meta" data-hero-meta>
+      <span>3 quartos</span>
+      <span class="hero__dot" aria-hidden="true"></span>
+      <span>106 m²</span>
+      <span class="hero__dot" aria-hidden="true"></span>
+      <span>Mobiliado</span>
+      <span class="hero__dot" aria-hidden="true"></span>
+      <span>Aceita pet</span>
+    </div>
+  </div>
+
+  <div class="hero__scroll" data-hero-scroll aria-hidden="true">
+    <span class="hero__scroll-line"></span>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    color: var(--color-canvas);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform-origin: center;
+    transform: scale(1.12); /* GSAP animates to scale(1) */
+  }
+
+  .hero__veil {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg,
+        rgba(10, 12, 16, 0.45) 0%,
+        rgba(10, 12, 16, 0.15) 30%,
+        rgba(10, 12, 16, 0.18) 60%,
+        rgba(10, 12, 16, 0.70) 100%);
+    pointer-events: none;
+  }
+
+  .hero__header {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.75rem clamp(1.25rem, 4vw, 3rem);
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .hero__mark--right {
+    text-align: right;
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 2;
+    padding: 0 clamp(1.25rem, 4vw, 3rem);
+    align-self: end;
+    margin-bottom: clamp(5.5rem, 16vh, 11rem);
+    max-width: 1280px;
+  }
+
+  .hero__title {
+    font-size: clamp(2.75rem, 7.5vw, 7rem);
+    line-height: 0.95;
+    margin: 0 0 1.75rem;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    color: white;
+  }
+
+  .hero__title-line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.18em;    /* espaço pros descenders (j, p, g, y, q) */
+    margin-bottom: -0.12em;    /* compensa pra não criar gap visual entre linhas */
+    opacity: 0;                /* GSAP sets to 1 immediately; chars hold the reveal */
+    transform: translateY(0);
+  }
+
+  .hero__title-line--italic {
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  .hero__sub {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.15rem, 2vw, 1.65rem);
+    margin: 0 0 2.75rem;
+    color: rgba(255, 255, 255, 0.88);
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .hero__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    opacity: 0;
+  }
+
+  .hero__dot {
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  .hero__scroll {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+  }
+
+  .hero__scroll-line {
+    width: 1px;
+    height: 44px;
+    background: linear-gradient(180deg,
+      rgba(255, 255, 255, 0.7) 0%,
+      rgba(255, 255, 255, 0) 100%);
+    transform-origin: top;
+    animation: scrollPulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { transform: scaleY(1); opacity: 0.7; }
+    50% { transform: scaleY(0.35); opacity: 1; }
+  }
+
+  @media (max-width: 768px) {
+    .hero__header {
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      padding: 1.25rem 1.25rem;
+    }
+    .hero__content {
+      margin-bottom: 3.5rem;
+    }
+    .hero__title {
+      font-size: clamp(2.5rem, 11vw, 4rem);
+    }
+    .hero__sub {
+      margin-bottom: 1.75rem;
+    }
+    .hero__meta {
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      gap: 0.5rem;
+    }
+    .hero__scroll {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__media :global(img) {
+      transform: scale(1) !important;
+    }
+    .hero__title-line,
+    .hero__sub,
+    .hero__meta,
+    .hero__scroll {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .hero__scroll-line {
+      animation: none;
+    }
+  }
+</style>

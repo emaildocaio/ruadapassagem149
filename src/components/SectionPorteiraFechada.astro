@@ -1,0 +1,203 @@
+---
+const categorias = [
+  {
+    titulo: 'Climatização',
+    items: ['Ar-condicionado split em todos os cômodos'],
+  },
+  {
+    titulo: 'Cozinha & Lavanderia',
+    items: [
+      'Geladeira de duas portas',
+      'Máquina de lavar louça',
+      'Torre quente',
+      'Lava e seca',
+    ],
+  },
+  {
+    titulo: 'Living & Quartos',
+    items: [
+      'Sofá recém reestofado',
+      'Smart TV de 60” na sala',
+      'Smart TVs de 50” nos quartos',
+    ],
+  },
+  {
+    titulo: 'Home office',
+    items: [
+      'Dois postos de trabalho',
+      'Cadeiras ergonômicas',
+      'Sofá-cama',
+    ],
+  },
+];
+---
+
+<section class="porteira" id="porteira" aria-labelledby="porteira-title">
+  <div class="porteira__inner">
+    <header class="porteira__header">
+      <span class="porteira__eyebrow" data-reveal="fade">
+        <span class="porteira__num">04</span>
+        <span class="porteira__divider"></span>
+        <span>Porteira fechada</span>
+      </span>
+
+      <h2 id="porteira-title" class="porteira__title" data-reveal="text">
+        Entra<br />e mora.
+      </h2>
+
+      <p class="porteira__lead" data-reveal="text">
+        A venda é com o imóvel <em>mobiliado por completo</em> — móveis,
+        eletrodomésticos, ar-condicionado e home office equipado. Chega com a
+        mala, dorme na primeira noite.
+      </p>
+    </header>
+
+    <ul class="porteira__grid">
+      {categorias.map((cat) => (
+        <li class="porteira__cat" data-reveal="fade">
+          <h3 class="porteira__cat-title">{cat.titulo}</h3>
+          <ul class="porteira__items">
+            {cat.items.map((item) => (
+              <li class="porteira__item">
+                <span class="porteira__check" aria-hidden="true">+</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .porteira {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    padding: clamp(5rem, 12vh, 10rem) 0;
+  }
+
+  .porteira__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .porteira__header {
+    max-width: 50rem;
+    margin-bottom: clamp(3rem, 7vh, 5rem);
+  }
+
+  .porteira__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-stone);
+    margin-bottom: 2.25rem;
+  }
+
+  .porteira__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: var(--color-bronze);
+    letter-spacing: 0;
+  }
+
+  .porteira__divider {
+    width: 40px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.4;
+  }
+
+  .porteira__title {
+    font-size: clamp(2.25rem, 5.5vw, 5rem);
+    line-height: 0.98;
+    margin-bottom: 2rem;
+  }
+
+  .porteira__lead {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+    line-height: 1.6;
+    color: var(--color-stone-deep);
+    max-width: 48ch;
+  }
+
+  .porteira__lead em {
+    font-style: italic;
+    color: var(--color-ink);
+  }
+
+  /* Grid de categorias */
+  .porteira__grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 4vw, 3rem);
+  }
+
+  @media (min-width: 700px) {
+    .porteira__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .porteira__grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(1.5rem, 2.5vw, 2.5rem);
+    }
+  }
+
+  .porteira__cat {
+    border-top: 1px solid color-mix(in oklch, var(--color-ink), transparent 86%);
+    padding-top: 1.5rem;
+  }
+
+  .porteira__cat-title {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-bronze);
+    font-weight: 600;
+    margin: 0 0 1.25rem;
+  }
+
+  .porteira__items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .porteira__item {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 0.6rem;
+    align-items: baseline;
+    font-family: var(--font-sans);
+    font-size: 0.92rem;
+    color: var(--color-ink);
+    line-height: 1.45;
+  }
+
+  .porteira__check {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 1.1rem;
+    color: var(--color-bronze);
+    line-height: 1;
+  }
+</style>

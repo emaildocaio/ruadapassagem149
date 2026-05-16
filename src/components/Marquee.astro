@@ -1,0 +1,74 @@
+---
+const items = [
+  'Botafogo',
+  '149 · Rua da Passagem',
+  '3 quartos',
+  '106 m²',
+  'Mobiliado',
+  'Aceita pet',
+  'Projeto Rafael Ramos Arq.',
+  '5º andar',
+  'Porteira fechada',
+];
+// Duplicate to make the loop seamless
+const displayItems = [...items, ...items];
+---
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    {displayItems.map((item) => (
+      <>
+        <span class="marquee__item">{item}</span>
+        <span class="marquee__dot">·</span>
+      </>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    background: var(--color-ink-deep);
+    color: var(--color-canvas);
+    padding: 1.5rem 0;
+    border-top: 1px solid color-mix(in oklch, var(--color-canvas), transparent 92%);
+    border-bottom: 1px solid color-mix(in oklch, var(--color-canvas), transparent 92%);
+  }
+
+  .marquee__track {
+    display: flex;
+    gap: 2.25rem;
+    align-items: center;
+    white-space: nowrap;
+    width: max-content;
+    animation: marquee-scroll 48s linear infinite;
+    will-change: transform;
+  }
+
+  .marquee__item {
+    font-family: var(--font-display);
+    font-weight: 350;
+    font-style: italic;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    letter-spacing: -0.01em;
+    font-variation-settings: "opsz" 144, "SOFT" 60;
+  }
+
+  .marquee__dot {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    color: var(--color-bronze);
+    opacity: 0.65;
+  }
+
+  @keyframes marquee-scroll {
+    from { transform: translate3d(0, 0, 0); }
+    to { transform: translate3d(-50%, 0, 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track {
+      animation: none;
+    }
+  }
+</style>

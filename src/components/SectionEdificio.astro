@@ -1,0 +1,225 @@
+---
+import { Image } from 'astro:assets';
+import piscinaImg from '../assets/fotos/apto-botafogo-101.jpg';
+import gourmetImg from '../assets/fotos/Espaço Gourmet.png';
+import academiaImg from '../assets/fotos/apto-botafogo-91.jpg';
+import kidsImg from '../assets/fotos/apto-botafogo-108.jpg';
+
+const items = [
+  { src: piscinaImg,  title: 'Piscina',         cat: 'Lazer',     alt: 'Piscina com mosaico verde-água, deck de cumaru e sofás de exterior em madeira' },
+  { src: gourmetImg,  title: 'Espaço gourmet',  cat: 'Convívio',  alt: 'Espaço gourmet do edifício' },
+  { src: academiaImg, title: 'Academia',        cat: 'Esporte',   alt: 'Academia do edifício com equipamentos modernos' },
+  { src: kidsImg,     title: 'Brinquedoteca',   cat: 'Família',   alt: 'Brinquedoteca do edifício com marcenaria em pinus, mezanino e escada' },
+];
+---
+
+<section class="edificio" id="edificio" aria-labelledby="edificio-title">
+  <div class="edificio__inner">
+    <header class="edificio__header">
+      <span class="edificio__eyebrow" data-reveal="fade">
+        <span class="edificio__num">05</span>
+        <span class="edificio__divider"></span>
+        <span>O edifício</span>
+      </span>
+
+      <h2 id="edificio-title" class="edificio__title" data-reveal="text">
+        Mais do<br />que apartamento.
+      </h2>
+
+      <p class="edificio__lead" data-reveal="text">
+        O MEET Botafogo é um boutique condomínio. Piscina com deck de cumaru,
+        espaço gourmet, academia e brinquedoteca autoral em pinus formam um
+        térreo desenhado para conviver — não para passar.
+      </p>
+    </header>
+
+    <div class="edificio__grid">
+      {items.map((item) => (
+        <div class="edificio__card" data-reveal="fade">
+          <div class="edificio__card-image">
+            <Image
+              src={item.src}
+              alt={item.alt}
+              widths={[400, 600, 900, 1200]}
+              sizes="(max-width: 600px) 50vw, 25vw"
+              format="avif"
+              quality={88}
+              loading="lazy"
+            />
+            <div class="edificio__card-veil" aria-hidden="true"></div>
+          </div>
+          <div class="edificio__card-info">
+            <span class="edificio__card-cat">{item.cat}</span>
+            <span class="edificio__card-name">{item.title}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .edificio {
+    background: var(--color-bone);
+    color: var(--color-ink);
+    padding: clamp(5rem, 12vh, 10rem) 0;
+  }
+
+  .edificio__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .edificio__header {
+    max-width: 50rem;
+    margin-bottom: clamp(3rem, 6vh, 5rem);
+  }
+
+  .edificio__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-stone);
+    margin-bottom: 2.25rem;
+  }
+
+  .edificio__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: var(--color-bronze);
+    letter-spacing: 0;
+  }
+
+  .edificio__divider {
+    width: 40px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.4;
+  }
+
+  .edificio__title {
+    font-size: clamp(2.25rem, 5.5vw, 5rem);
+    line-height: 0.98;
+    margin-bottom: 2rem;
+  }
+
+  .edificio__lead {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+    line-height: 1.6;
+    color: var(--color-stone-deep);
+    max-width: 44ch;
+  }
+
+  /* Galeria responsiva:
+     ≤ 600px       → 2×2 (mobile)
+     > 600px       → 4 em linha (tablet + desktop) */
+  .edificio__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(0.85rem, 1.5vw, 1.5rem);
+  }
+
+  @media (min-width: 601px) {
+    .edificio__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* Card — mesma estética dos cards de cômodos da galeria */
+  .edificio__card {
+    position: relative;
+    display: block;
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--color-mist);
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.04),
+      0 6px 18px rgba(0, 0, 0, 0.06);
+    transition:
+      box-shadow 0.5s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+    aspect-ratio: 3 / 4;
+  }
+
+  .edificio__card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.05),
+      0 16px 40px rgba(0, 0, 0, 0.14);
+  }
+
+  .edificio__card-image {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .edificio__card-image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition:
+      transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1),
+      filter 0.5s ease;
+  }
+
+  .edificio__card:hover .edificio__card-image :global(img) {
+    transform: scale(1.06);
+    filter: brightness(1.04);
+  }
+
+  .edificio__card-veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      transparent 50%,
+      rgba(0, 0, 0, 0.15) 70%,
+      rgba(0, 0, 0, 0.65) 100%
+    );
+    pointer-events: none;
+  }
+
+  .edificio__card-info {
+    position: absolute;
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 2;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.35rem;
+  }
+
+  .edificio__card-cat {
+    font-family: var(--font-sans);
+    font-size: 0.56rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.78);
+    font-weight: 500;
+  }
+
+  .edificio__card-name {
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 1.3vw, 1.25rem);
+    font-weight: 500;
+    color: white;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.35);
+  }
+</style>

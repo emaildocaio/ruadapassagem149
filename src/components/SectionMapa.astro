@@ -1,0 +1,426 @@
+---
+const HOME = {
+  lng: -43.1806946,
+  lat: -22.9546803,
+  address: 'Rua da Passagem, 149',
+};
+
+const pois = [
+  // Lazer / ao ar livre
+  { name: 'Mirante do Pasmado',    cat: 'praia',     detail: 'Mirante e vista panorâmica', lat: -22.95230, lng: -43.17925 },
+  { name: 'Praia de Botafogo',     cat: 'praia',     detail: 'Orla e enseada',             lat: -22.94540, lng: -43.18082 },
+  // Gastronomia
+  { name: 'Rua Arnaldo Quintela',  cat: 'bar',       detail: '8ª rua mais cool do mundo · Time Out 2024', lat: -22.95510, lng: -43.18238 },
+  { name: 'Cordon Bleu',           cat: 'bar',       detail: 'Restaurante · Rua da Passagem 179',         lat: -22.95549, lng: -43.18003 },
+  { name: 'The Slow Bakery',       cat: 'bar',       detail: 'Padaria & café · Gen. Polidoro 25',         lat: -22.95283, lng: -43.18285 },
+  // Mercados e essenciais
+  { name: 'Zona Sul',              cat: 'mercado',   detail: 'Mercado · Arnaldo Quintela 70',             lat: -22.95518, lng: -43.18333 },
+  { name: 'HortiFrutti',           cat: 'mercado',   detail: 'Hortifruti · Rua da Passagem 133',          lat: -22.95423, lng: -43.18103 },
+  { name: 'Drogaria Pacheco',      cat: 'mercado',   detail: 'Drogaria · Arnaldo Quintela 10',            lat: -22.954363, lng: -43.181314 },
+  // Mobilidade
+  { name: 'Metrô Botafogo',        cat: 'transporte',detail: 'Linhas 1 e 2',                              lat: -22.95093, lng: -43.18424 },
+  // Comércio
+  { name: 'Shopping Rio Sul',      cat: 'comercio',  detail: 'Shopping center · Lauro Müller',            lat: -22.956684, lng: -43.177260 },
+  { name: 'Casa e Gourmet',        cat: 'comercio',  detail: 'Shopping · Gen. Severiano 97',              lat: -22.95402, lng: -43.17787 },
+  { name: 'Botafogo Praia Shopping', cat: 'comercio',detail: 'Shopping · Praia de Botafogo 400',          lat: -22.94753, lng: -43.18341 },
+  // Saúde
+  { name: 'Hospital Pró-Cardíaco', cat: 'saude',     detail: 'Hospital · Gen. Polidoro 192',              lat: -22.95623, lng: -43.18678 },
+  { name: 'Policlínica',           cat: 'saude',     detail: 'Policlínica · Av. Pasteur 72',              lat: -22.95070, lng: -43.17869 },
+  // Educação
+  { name: 'Escola Eleva',          cat: 'educacao',  detail: 'Escola · Gen. Severiano 159',               lat: -22.95439, lng: -43.17928 },
+  // Esporte
+  { name: 'The Simple Gym',        cat: 'esporte',   detail: 'Academia · Góis Monteiro 155',              lat: -22.95575, lng: -43.17924 },
+  { name: 'Smart Fit',             cat: 'esporte',   detail: 'Academia · Rua da Passagem 160',            lat: -22.95546, lng: -43.18103 },
+];
+---
+
+<section class="mapa" id="bairro" aria-labelledby="mapa-title">
+  <div class="mapa__inner">
+    <header class="mapa__header">
+      <span class="mapa__eyebrow" data-reveal="fade">
+        <span class="mapa__num">06</span>
+        <span class="mapa__divider"></span>
+        <span>O bairro</span>
+      </span>
+      <h2 id="mapa-title" class="mapa__title" data-reveal="text">
+        Sete minutos até<br />a 8ª rua mais <em>cool</em><br />do mundo.
+      </h2>
+      <p class="mapa__lead" data-reveal="text">
+        A Rua Arnaldo Quintela foi eleita a 8ª rua mais <em>cool</em> do mundo
+        pela <em>Time Out</em> em 2024. Bares de música ao vivo, gastronomia
+        autoral, vida noturna adulta — tudo a um caminhar de casa.
+      </p>
+      <p class="mapa__hint" data-reveal="fade">
+        Círculo bronze = <em>10 min a pé</em> a partir do apartamento. Clique em qualquer ponto da lista para voar até ele no mapa.
+      </p>
+    </header>
+
+    <div class="mapa__layout">
+      <div
+        id="mapa-canvas"
+        class="mapa__canvas"
+        data-home-lng={HOME.lng}
+        data-home-lat={HOME.lat}
+        data-pois={JSON.stringify(pois)}
+        aria-label="Mapa interativo de Botafogo com pontos próximos"
+      ></div>
+
+      <aside class="mapa__sidebar" data-reveal="fade">
+        <h3 class="mapa__list-title">Pontos próximos</h3>
+        <ul class="mapa__list">
+          <li>
+            <button class="mapa__poi-btn mapa__poi-btn--home" data-poi-lat={HOME.lat} data-poi-lng={HOME.lng}>
+              <span class="mapa__poi-dot mapa__poi-dot--home"></span>
+              <span class="mapa__poi-text">
+                <span class="mapa__poi-name">149 · Rua da Passagem</span>
+                <span class="mapa__poi-cat">O apartamento</span>
+              </span>
+            </button>
+          </li>
+          {pois.map((p) => (
+            <li>
+              <button class="mapa__poi-btn" data-poi-lat={p.lat} data-poi-lng={p.lng}>
+                <span class={`mapa__poi-dot mapa__poi-dot--${p.cat}`}></span>
+                <span class="mapa__poi-text">
+                  <span class="mapa__poi-name">{p.name}</span>
+                  <span class="mapa__poi-cat">{p.detail}</span>
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<script>
+  import maplibregl from 'maplibre-gl';
+  import 'maplibre-gl/dist/maplibre-gl.css';
+
+  function ready(fn: () => void) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fn);
+    } else {
+      fn();
+    }
+  }
+
+  function circlePolygon(center: [number, number], radiusMeters: number, points = 96) {
+    const [lng, lat] = center;
+    const earthRadius = 6371000;
+    const angularRadius = radiusMeters / earthRadius;
+    const latRad = (lat * Math.PI) / 180;
+    const coords: [number, number][] = [];
+    for (let i = 0; i <= points; i++) {
+      const angle = (i / points) * 2 * Math.PI;
+      const dLat = angularRadius * Math.cos(angle);
+      const dLng = (angularRadius * Math.sin(angle)) / Math.cos(latRad);
+      coords.push([
+        lng + (dLng * 180) / Math.PI,
+        lat + (dLat * 180) / Math.PI,
+      ]);
+    }
+    return { type: 'Polygon' as const, coordinates: [coords] };
+  }
+
+  ready(() => {
+    const canvas = document.getElementById('mapa-canvas');
+    if (!canvas) return;
+
+    const homeLng = parseFloat(canvas.dataset.homeLng || '0');
+    const homeLat = parseFloat(canvas.dataset.homeLat || '0');
+    const pois = JSON.parse(canvas.dataset.pois || '[]');
+
+    const map = new maplibregl.Map({
+      container: 'mapa-canvas',
+      style: 'https://tiles.openfreemap.org/styles/positron',
+      center: [homeLng, homeLat],
+      zoom: 14.2,
+      minZoom: 12,
+      maxZoom: 17,
+      attributionControl: false,
+      cooperativeGestures: true,
+    });
+
+    map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right');
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+
+    map.on('load', () => {
+      // Walk zone (10 min ≈ 800m)
+      map.addSource('walk-zone', {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          geometry: circlePolygon([homeLng, homeLat], 800),
+          properties: {},
+        } as any,
+      });
+
+      map.addLayer({
+        id: 'walk-zone-fill',
+        type: 'fill',
+        source: 'walk-zone',
+        paint: {
+          'fill-color': '#a8855c',
+          'fill-opacity': 0.08,
+        },
+      });
+
+      map.addLayer({
+        id: 'walk-zone-line',
+        type: 'line',
+        source: 'walk-zone',
+        paint: {
+          'line-color': '#a8855c',
+          'line-width': 1.2,
+          'line-opacity': 0.55,
+          'line-dasharray': [4, 3],
+        },
+      });
+
+      // HOME marker (custom, bigger)
+      const homeEl = document.createElement('div');
+      homeEl.className = 'map-marker map-marker--home';
+      homeEl.setAttribute('aria-label', 'O apartamento');
+      new maplibregl.Marker({ element: homeEl, anchor: 'center' })
+        .setLngLat([homeLng, homeLat])
+        .setPopup(
+          new maplibregl.Popup({ offset: 18, closeButton: false }).setHTML(
+            '<strong>149 · Rua da Passagem</strong><small>O apartamento</small>'
+          )
+        )
+        .addTo(map);
+
+      // POIs
+      pois.forEach((p: any) => {
+        const el = document.createElement('div');
+        el.className = `map-marker map-marker--${p.cat}`;
+        el.setAttribute('aria-label', p.name);
+        new maplibregl.Marker({ element: el, anchor: 'center' })
+          .setLngLat([p.lng, p.lat])
+          .setPopup(
+            new maplibregl.Popup({ offset: 14, closeButton: false }).setHTML(
+              `<strong>${p.name}</strong><small>${p.detail}</small>`
+            )
+          )
+          .addTo(map);
+      });
+    });
+
+    // Sidebar buttons fly to coordinates
+    document.querySelectorAll<HTMLElement>('[data-poi-lat]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const lat = parseFloat(btn.dataset.poiLat || '0');
+        const lng = parseFloat(btn.dataset.poiLng || '0');
+        map.flyTo({ center: [lng, lat], zoom: 16, duration: 1100, essential: true });
+      });
+    });
+  });
+</script>
+
+<style>
+  .mapa {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    padding: clamp(5rem, 12vh, 10rem) 0;
+  }
+
+  .mapa__inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .mapa__header {
+    max-width: 50rem;
+    margin-bottom: clamp(2.5rem, 6vh, 4rem);
+  }
+
+  .mapa__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-stone);
+    margin-bottom: 2.25rem;
+  }
+
+  .mapa__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 350;
+    font-size: 1.5rem;
+    color: var(--color-bronze);
+    font-variation-settings: "opsz" 36, "SOFT" 60;
+  }
+
+  .mapa__divider {
+    width: 40px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.4;
+  }
+
+  .mapa__title {
+    font-size: clamp(2.25rem, 5.5vw, 5rem);
+    line-height: 0.98;
+    margin-bottom: 1.75rem;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+
+  .mapa__title em {
+    font-style: italic;
+    color: var(--color-bronze);
+  }
+
+  .mapa__lead {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+    line-height: 1.6;
+    color: var(--color-stone-deep);
+    max-width: 42ch;
+    margin-bottom: 1.25rem;
+  }
+
+  .mapa__lead em {
+    font-style: italic;
+    color: var(--color-ink);
+  }
+
+  .mapa__hint {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    color: var(--color-stone);
+  }
+
+  .mapa__hint em {
+    color: var(--color-bronze);
+    font-style: italic;
+  }
+
+  .mapa__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .mapa__layout {
+      grid-template-columns: 1.6fr 1fr;
+      align-items: stretch;
+    }
+  }
+
+  .mapa__canvas {
+    width: 100%;
+    height: clamp(420px, 65vh, 640px);
+    background: var(--color-mist);
+    position: relative;
+  }
+
+  .mapa__sidebar {
+    background: var(--color-bone);
+    padding: 2rem 1.75rem;
+    overflow-y: auto;
+    max-height: clamp(420px, 65vh, 640px);
+  }
+
+  .mapa__list-title {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-stone);
+    font-weight: 500;
+    margin-bottom: 1.25rem;
+  }
+
+  .mapa__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .mapa__poi-btn {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    padding: 0.85rem 0.5rem;
+    text-align: left;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    cursor: pointer;
+    border-bottom: 1px solid color-mix(in oklch, var(--color-ink), transparent 93%);
+    font-family: inherit;
+    color: inherit;
+    transition: background 0.2s ease, padding-left 0.25s ease;
+  }
+
+  .mapa__poi-btn:hover,
+  .mapa__poi-btn:focus-visible {
+    background: color-mix(in oklch, var(--color-ink), transparent 95%);
+    padding-left: 0.85rem;
+    outline: none;
+  }
+
+  .mapa__poi-btn--home {
+    background: color-mix(in oklch, var(--color-bronze), transparent 88%);
+  }
+
+  .mapa__poi-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 0.35rem;
+    background: var(--color-ink);
+    border: 2px solid var(--color-canvas);
+    box-shadow: 0 0 0 1px color-mix(in oklch, var(--color-ink), transparent 88%);
+  }
+
+  .mapa__poi-dot--home { background: var(--color-bronze); width: 13px; height: 13px; }
+  .mapa__poi-dot--bar { background: var(--color-bronze); }
+  .mapa__poi-dot--praia { background: var(--color-leaf); }
+  .mapa__poi-dot--transporte { background: var(--color-stone-deep); }
+  .mapa__poi-dot--mercado { background: var(--color-walnut); }
+  .mapa__poi-dot--comercio { background: var(--color-ink); }
+  .mapa__poi-dot--saude { background: oklch(58% 0.13 28); }
+  .mapa__poi-dot--educacao { background: oklch(42% 0.09 230); }
+  .mapa__poi-dot--esporte { background: oklch(55% 0.075 175); }
+
+  .mapa__poi-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.18rem;
+    min-width: 0;
+  }
+
+  .mapa__poi-name {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 350;
+    color: var(--color-ink);
+    line-height: 1.2;
+    font-variation-settings: "opsz" 36, "SOFT" 30;
+  }
+
+  .mapa__poi-btn--home .mapa__poi-name {
+    color: var(--color-bronze);
+  }
+
+  .mapa__poi-cat {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    color: var(--color-stone);
+    line-height: 1.35;
+  }
+</style>

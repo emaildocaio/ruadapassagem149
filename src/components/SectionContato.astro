@@ -1,0 +1,259 @@
+---
+const whatsappNumber = '5521965210442';
+const whatsappMessage = encodeURIComponent(
+  'Olá Caio! Vi o anúncio do apartamento na Rua da Passagem 149 e gostaria de agendar uma visita.'
+);
+const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+
+const details = [
+  { label: 'Endereço', value: 'Rua da Passagem, 149 · Botafogo · Rio de Janeiro' },
+  { label: 'Valor', value: 'R$ 2.275.000' },
+  { label: 'Privativa', value: '106 m² · 3 quartos (2 suítes) · mobiliado' },
+  { label: 'WhatsApp', value: '+55 21 96521-0442' },
+];
+---
+
+<section class="contato" id="contato" aria-labelledby="contato-title">
+  <div class="contato__inner">
+    <span class="contato__eyebrow" data-reveal="fade">
+      <span class="contato__num">08</span>
+      <span class="contato__divider"></span>
+      <span>Contato</span>
+    </span>
+
+    <h2 id="contato-title" class="contato__title" data-reveal="text">
+      Vamos marcar<br />uma visita?
+    </h2>
+
+    <p class="contato__lead" data-reveal="text">
+      Eu e Adriana moramos no imóvel por um ano, mas estamos morando agora
+      em outro estado. Venda direta, sem intermediário. Me chama no WhatsApp
+      e a gente combina um horário que funcione pra você.
+    </p>
+
+    <a
+      class="contato__cta"
+      href={whatsappLink}
+      target="_blank"
+      rel="noreferrer"
+      data-magnetic="0.25"
+      data-cursor="grow"
+      data-reveal="fade"
+      aria-label="Abrir conversa no WhatsApp"
+    >
+      <span class="contato__cta-text">Falar pelo WhatsApp</span>
+      <span class="contato__cta-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </a>
+
+    <ul class="contato__details" data-reveal="fade">
+      {details.map((d) => (
+        <li class="contato__detail">
+          <span class="contato__detail-label">{d.label}</span>
+          <span class="contato__detail-value">{d.value}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <footer class="contato__footer">
+    <div class="contato__footer-inner">
+      <span class="contato__footer-credit">
+        Projeto de arquitetura: <a
+          href="https://www.instagram.com/rafaelramosarquitetura"
+          target="_blank"
+          rel="noreferrer"
+        >Rafael Ramos Arq. & Interiores</a>
+      </span>
+      <span class="contato__footer-mark">149 · Rua da Passagem · Botafogo</span>
+    </div>
+  </footer>
+</section>
+
+<style>
+  .contato {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    padding: clamp(5rem, 14vh, 11rem) 0 0;
+    position: relative;
+  }
+
+  .contato__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .contato__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-stone);
+    margin-bottom: 2.25rem;
+  }
+
+  .contato__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 350;
+    font-size: 1.5rem;
+    color: var(--color-bronze);
+    letter-spacing: 0;
+    font-variation-settings: "opsz" 36, "SOFT" 60;
+  }
+
+  .contato__divider {
+    width: 40px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.4;
+  }
+
+  .contato__title {
+    font-size: clamp(2.5rem, 6.5vw, 6rem);
+    line-height: 0.98;
+    margin-bottom: 2rem;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    max-width: 16ch;
+  }
+
+  .contato__lead {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+    line-height: 1.55;
+    color: var(--color-stone-deep);
+    max-width: 44ch;
+    margin-bottom: 3.5rem;
+  }
+
+  .contato__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 2rem;
+    background: var(--color-ink);
+    color: var(--color-canvas);
+    border-radius: 999px;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    will-change: transform;
+  }
+
+  .contato__cta:hover {
+    background: var(--color-ink-deep);
+  }
+
+  .contato__cta-arrow {
+    display: inline-flex;
+    transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .contato__cta:hover .contato__cta-arrow {
+    transform: translateX(6px);
+  }
+
+  .contato__details {
+    list-style: none;
+    padding: 0;
+    margin: 5rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    border-top: 1px solid color-mix(in oklch, var(--color-ink), transparent 88%);
+  }
+
+  .contato__detail {
+    padding: 1.5rem 1.25rem;
+    border-bottom: 1px solid color-mix(in oklch, var(--color-ink), transparent 88%);
+    border-right: 1px solid color-mix(in oklch, var(--color-ink), transparent 92%);
+  }
+
+  .contato__detail:first-child {
+    padding-left: 0;
+  }
+
+  .contato__detail:last-child {
+    border-right: 0;
+  }
+
+  .contato__detail-label {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-stone);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+  }
+
+  .contato__detail-value {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    color: var(--color-ink);
+    line-height: 1.4;
+    font-variation-settings: "opsz" 36, "SOFT" 30;
+  }
+
+  .contato__footer {
+    margin-top: 6rem;
+    padding: 2rem 0;
+    border-top: 1px solid color-mix(in oklch, var(--color-ink), transparent 90%);
+    background: var(--color-canvas);
+  }
+
+  .contato__footer-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 3rem);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--color-stone);
+  }
+
+  .contato__footer-credit a {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in oklch, var(--color-ink), transparent 70%);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.2s ease;
+  }
+
+  .contato__footer-credit a:hover {
+    text-decoration-color: var(--color-ink);
+  }
+
+  .contato__footer-mark {
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 600px) {
+    .contato__detail {
+      border-right: 0;
+    }
+    .contato__cta {
+      padding: 1.1rem 1.6rem;
+      font-size: 0.78rem;
+    }
+  }
+</style>

@@ -1,0 +1,207 @@
+---
+const places = [
+  { name: 'Comuna', type: 'Bar e cozinha autoral' },
+  { name: 'Audio Rebel', type: 'Casa de shows e bar' },
+  { name: 'Adega Pérola', type: 'Boteco histórico' },
+  { name: 'Casa Camolese', type: 'Música ao vivo' },
+  { name: 'Estação Aberta', type: 'Bar de vinhos' },
+  { name: 'Cobal do Humaitá', type: 'Mercado e gastronomia' },
+];
+
+const distances = [
+  { place: 'Arnaldo Quintela', time: '~7 min', dir: 'a pé' },
+  { place: 'Praia de Botafogo', time: '~3 min', dir: 'a pé' },
+  { place: 'Metrô Botafogo', time: '~9 min', dir: 'a pé' },
+  { place: 'Cobal do Humaitá', time: '~10 min', dir: 'a pé' },
+  { place: 'Shopping Rio Sul', time: '~8 min', dir: 'a pé' },
+  { place: 'Praia de Copacabana', time: '~6 min', dir: 'de carro' },
+];
+---
+
+<section class="bairro" id="bairro" aria-labelledby="bairro-title">
+  <div class="bairro__inner">
+    <div class="bairro__header">
+      <span class="bairro__eyebrow" data-reveal="fade">
+        <span class="bairro__num">05</span>
+        <span class="bairro__divider"></span>
+        <span>O bairro</span>
+      </span>
+
+      <h2 id="bairro-title" class="bairro__title" data-reveal="text">
+        Sete minutos até<br />a 8ª rua mais <em>cool</em><br />do mundo.
+      </h2>
+
+      <p class="bairro__lead" data-reveal="text">
+        A Rua Arnaldo Quintela foi eleita a 8ª rua mais <em>cool</em> do mundo
+        pela <em>Time Out</em> em 2024. Bares de música ao vivo, gastronomia
+        autoral, vida noturna adulta — tudo a um caminhar de casa.
+      </p>
+    </div>
+
+    <div class="bairro__columns">
+      <div class="bairro__col">
+        <h3 class="bairro__col-title">Onde ir</h3>
+        <ul class="bairro__list">
+          {places.map((p) => (
+            <li class="bairro__list-item" data-reveal="fade">
+              <span class="bairro__list-name">{p.name}</span>
+              <span class="bairro__list-type">{p.type}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="bairro__col">
+        <h3 class="bairro__col-title">Em quanto tempo</h3>
+        <ul class="bairro__list">
+          {distances.map((d) => (
+            <li class="bairro__list-item" data-reveal="fade">
+              <span class="bairro__list-name">{d.place}</span>
+              <span class="bairro__list-type">{d.time} {d.dir}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bairro {
+    background: var(--color-ink-deep);
+    color: var(--color-canvas);
+    padding: clamp(5rem, 12vh, 10rem) 0;
+    position: relative;
+  }
+
+  .bairro__inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .bairro__header {
+    max-width: 52rem;
+    margin-bottom: clamp(3rem, 8vh, 6rem);
+  }
+
+  .bairro__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: color-mix(in oklch, var(--color-canvas), transparent 50%);
+    margin-bottom: 2.25rem;
+  }
+
+  .bairro__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 350;
+    font-size: 1.5rem;
+    color: var(--color-bronze);
+    letter-spacing: 0;
+    font-variation-settings: "opsz" 36, "SOFT" 60;
+  }
+
+  .bairro__divider {
+    width: 40px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.4;
+  }
+
+  .bairro__title {
+    font-size: clamp(2.25rem, 5.5vw, 5rem);
+    line-height: 0.98;
+    margin-bottom: 2.25rem;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+
+  .bairro__title em {
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+    color: var(--color-bronze);
+  }
+
+  .bairro__lead {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+    line-height: 1.6;
+    color: color-mix(in oklch, var(--color-canvas), transparent 25%);
+    max-width: 42ch;
+  }
+
+  .bairro__lead em {
+    font-style: italic;
+    color: var(--color-canvas);
+  }
+
+  .bairro__columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(3rem, 5vw, 5rem);
+  }
+
+  @media (min-width: 768px) {
+    .bairro__columns {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .bairro__col-title {
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: color-mix(in oklch, var(--color-canvas), transparent 50%);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+
+  .bairro__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid color-mix(in oklch, var(--color-canvas), transparent 86%);
+  }
+
+  .bairro__list-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+    align-items: baseline;
+    padding: 1.05rem 0;
+    border-bottom: 1px solid color-mix(in oklch, var(--color-canvas), transparent 92%);
+  }
+
+  .bairro__list-name {
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+    font-weight: 350;
+    color: var(--color-canvas);
+    letter-spacing: -0.01em;
+    font-variation-settings: "opsz" 36, "SOFT" 40;
+  }
+
+  .bairro__list-type {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    color: color-mix(in oklch, var(--color-canvas), transparent 45%);
+    text-align: right;
+  }
+
+  @media (max-width: 480px) {
+    .bairro__list-item {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+    .bairro__list-type {
+      text-align: left;
+    }
+  }
+</style>

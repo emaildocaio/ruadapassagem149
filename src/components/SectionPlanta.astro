@@ -1,0 +1,482 @@
+---
+import { Image, getImage } from 'astro:assets';
+import plantaImg from '../assets/fotos/Design sem nome (1).png';
+import img41 from '../assets/fotos/apto-botafogo-41.jpg';
+import img50 from '../assets/fotos/apto-botafogo-50.jpg';
+import img58 from '../assets/fotos/apto-botafogo-58.jpg';
+import img74 from '../assets/fotos/apto-botafogo-74.jpg';
+import img84 from '../assets/fotos/apto-botafogo-84.jpg';
+import img24 from '../assets/fotos/apto-botafogo-24.jpg';
+import img9 from '../assets/fotos/apto-botafogo-9.jpg';
+import img81 from '../assets/fotos/apto-botafogo-81.jpg';
+import img40 from '../assets/fotos/apto-botafogo-40.jpg';
+import img64 from '../assets/fotos/apto-botafogo-64.jpg';
+
+// Cada cômodo agora é um PIN com 1 coordenada (x, y em % da imagem).
+// Coords iniciais aproximadas — ajuste rápido via modo de calibração:
+//   abra a página com ?calibrar na URL e clique no centro de cada cômodo.
+const rooms = [
+  { id: 'cozinha',      label: 1,  name: 'Cozinha integrada',  area: '8,5 m²',  desc: 'Bancada em Bianco Absoluto Ultracompact, marcenaria carvalho.', src: img41, x: 22.56, y: 46.30 },
+  { id: 'sala',         label: 2,  name: 'Living',             area: '21,3 m²', desc: 'Sala integrada à varanda original. Pé direito 2,50m.',          src: img50, x: 35.36, y: 38.02 },
+  { id: 'jantar',       label: 3,  name: 'Jantar',             area: 'integrado à sala', desc: 'Mesa redonda em mármore, cadeiras de couro caramelo.', src: img58, x: 34.39, y: 62.63 },
+  { id: 'suite-master', label: 4,  name: 'Suíte Master',       area: '9,9 m²',  desc: 'Com banho privativo em mármore Branco Prime.',                  src: img24, x: 78.05, y: 64.28 },
+  { id: 'banho-master', label: 5,  name: 'Banho Master',       area: '2,9 m²',  desc: 'Mármore Branco Prime, marcenaria carvalho, box azulejo azul.',  src: img84, x: 53.21, y: 68.54 },
+  { id: 'suite-01',     label: 6,  name: 'Suíte 01',           area: '7,9 m²',  desc: 'Com banho privativo.',                                           src: img40, x: 78.25, y: 40.71 },
+  { id: 'banho-01',     label: 7,  name: 'Banho 01',           area: '3,0 m²',  desc: 'Banheiro privativo da Suíte 01.',                                src: img9,  x: 81.35, y: 27.23 },
+  { id: 'home-office',  label: 8,  name: 'Quarto / Home Office', area: '11,7 m²', desc: 'Terceiro quarto, hoje configurado como home office com dois postos de trabalho.', src: img74, x: 53.99, y: 30.30 },
+  { id: 'lavabo',       label: 9,  name: 'Lavabo',             area: '1,6 m²',  desc: 'Revestimento texturizado em azul-petróleo, bancada flutuante.', src: img81, x: 49.72, y: 57.66 },
+  { id: 'lavanderia',   label: 10, name: 'Lavanderia',         area: '—',       desc: 'Área de serviço dedicada.',                                      src: img64, x: 21.78, y: 22.40 },
+];
+
+const previews = await Promise.all(
+  rooms.map(async (r) => {
+    const img = await getImage({ src: r.src, format: 'avif', quality: 80, widths: [800] });
+    return { id: r.id, src: img.src, width: r.src.width, height: r.src.height };
+  })
+);
+---
+
+<section class="planta" id="planta" aria-labelledby="planta-title">
+  <div class="planta__inner">
+    <header class="planta__header">
+      <span class="planta__eyebrow" data-reveal="fade">
+        <span class="planta__num">07</span>
+        <span class="planta__divider"></span>
+        <span>A planta</span>
+      </span>
+      <h2 id="planta-title" class="planta__title" data-reveal="text">
+        106 m² distribuídos<br />com cuidado.
+      </h2>
+      <p class="planta__hint" data-reveal="fade">
+        Clique (ou passe o mouse) em qualquer pino para ver o ambiente.
+      </p>
+    </header>
+
+    <div class="planta__layout">
+      <div class="planta__svg-wrap" data-reveal="fade">
+        <div class="planta__container" data-planta-container>
+          <Image
+            src={plantaImg}
+            alt="Planta baixa do apartamento de 106 m² com 3 quartos, 2 suítes e lavabo"
+            widths={[800, 1200, 1600]}
+            sizes="(max-width: 1024px) 100vw, 60vw"
+            format="avif"
+            quality={92}
+            class="planta__img"
+          />
+
+          <div class="planta__pins" data-planta-pins>
+            {rooms.map((r) => (
+              <button
+                type="button"
+                class="planta__pin"
+                data-room={r.id}
+                style={`left: ${r.x}%; top: ${r.y}%;`}
+                aria-label={`${r.name}, ${r.area}`}
+                title={r.name}
+              >
+                <span class="planta__pin-num">{r.label}</span>
+              </button>
+            ))}
+          </div>
+
+          <div class="planta__calibrar" data-planta-calibrar hidden>
+            <span class="planta__calibrar-label">Modo calibração ativo · clique na planta pra capturar coords</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="planta__panel" data-planta-panel>
+        <div class="planta__panel-default" data-planta-default>
+          <h3 class="planta__panel-title">Selecione um cômodo</h3>
+          <p class="planta__panel-text">
+            Clique em qualquer pino sobre a planta — vai abrir aqui a foto,
+            a área e a função do ambiente.
+          </p>
+          <ul class="planta__panel-legend">
+            {rooms.map((r) => (
+              <li>
+                <span class="planta__legend-num">{r.label}</span>
+                <span class="planta__legend-name">{r.name}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {rooms.map((r, i) => (
+          <div class="planta__panel-card" data-planta-card={r.id} hidden>
+            <img src={previews[i].src} alt={r.name} loading="lazy" width={previews[i].width} height={previews[i].height} />
+            <div class="planta__panel-info">
+              <span class="planta__panel-area">{r.area}</span>
+              <h3 class="planta__panel-name">
+                <span class="planta__panel-num">{r.label}</span>
+                {r.name}
+              </h3>
+              <p class="planta__panel-desc">{r.desc}</p>
+            </div>
+          </div>
+        ))}
+      </aside>
+    </div>
+  </div>
+</section>
+
+<script>
+  function ready(fn: () => void) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fn);
+    } else { fn(); }
+  }
+
+  ready(() => {
+    const container = document.querySelector<HTMLElement>('[data-planta-container]');
+    if (!container) return;
+
+    const pins = container.querySelectorAll<HTMLElement>('.planta__pin');
+    const cards = document.querySelectorAll<HTMLElement>('[data-planta-card]');
+    const defaultCard = document.querySelector<HTMLElement>('[data-planta-default]');
+
+    function showCard(id: string | null) {
+      cards.forEach((c) => { c.hidden = c.dataset.plantaCard !== id; });
+      if (defaultCard) defaultCard.hidden = id !== null;
+      pins.forEach((p) => p.classList.toggle('is-active', p.dataset.room === id));
+    }
+
+    pins.forEach((pin) => {
+      const id = pin.dataset.room;
+      if (!id) return;
+      pin.addEventListener('mouseenter', () => showCard(id));
+      pin.addEventListener('focus', () => showCard(id));
+      pin.addEventListener('click', (e) => {
+        e.preventDefault();
+        showCard(id);
+      });
+    });
+
+    container.addEventListener('mouseleave', () => showCard(null));
+
+    // === Modo calibração: adicione ?calibrar à URL ===
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('calibrar')) {
+      const calibrarBar = container.querySelector<HTMLElement>('[data-planta-calibrar]');
+      if (calibrarBar) calibrarBar.hidden = false;
+
+      const img = container.querySelector<HTMLImageElement>('img');
+      if (!img) return;
+
+      // Toast container
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+        position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 9999;
+        background: #0a0a0a; color: #fff; padding: 1rem 1.25rem;
+        font-family: ui-monospace, monospace; font-size: 0.85rem;
+        max-width: 32rem; border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        white-space: pre; overflow-x: auto;
+      `;
+      toast.textContent = 'Clique em qualquer ponto da planta…';
+      document.body.appendChild(toast);
+
+      const captured: { name: string; x: number; y: number }[] = [];
+
+      container.addEventListener('click', (e) => {
+        const target = e.target as HTMLElement;
+        if (target.closest('.planta__pin')) return; // ignore pins clicks
+        const rect = img.getBoundingClientRect();
+        const x = Number((((e as MouseEvent).clientX - rect.left) / rect.width * 100).toFixed(2));
+        const y = Number((((e as MouseEvent).clientY - rect.top) / rect.height * 100).toFixed(2));
+
+        const name = prompt(`Coord capturada: x=${x}, y=${y}\n\nQual cômodo? (cozinha, sala, jantar, home-office, banho-master, suite-master, banho-01, lavabo, suite-01, lavanderia)`);
+        if (!name) return;
+
+        captured.push({ name, x, y });
+
+        const formatted = captured
+          .map((c) => `{ id: '${c.name}', x: ${c.x}, y: ${c.y} },`)
+          .join('\n');
+        toast.textContent = `// ${captured.length} cômodo(s) capturado(s) — copie e me cole:\n\n${formatted}`;
+        console.log('Cômodos capturados até agora:', captured);
+      });
+    }
+  });
+</script>
+
+<style>
+  .planta {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    padding: clamp(5rem, 12vh, 10rem) 0;
+  }
+
+  .planta__inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .planta__header {
+    max-width: 50rem;
+    margin-bottom: clamp(2.5rem, 6vh, 4rem);
+  }
+
+  .planta__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--color-stone);
+    margin-bottom: 2.25rem;
+  }
+  .planta__num {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: var(--color-bronze);
+  }
+  .planta__divider {
+    width: 40px; height: 1px;
+    background: currentColor; opacity: 0.4;
+  }
+  .planta__title {
+    font-size: clamp(2.25rem, 5.5vw, 5rem);
+    line-height: 1;
+    margin-bottom: 1.25rem;
+  }
+  .planta__hint {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    color: var(--color-stone);
+  }
+
+  .planta__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    align-items: stretch;
+  }
+
+  @media (min-width: 1024px) {
+    .planta__layout {
+      grid-template-columns: 1.6fr 1fr;
+    }
+  }
+
+  .planta__svg-wrap {
+    background: var(--color-bone);
+    padding: clamp(1rem, 2vw, 1.5rem);
+    border-radius: 14px;
+  }
+
+  .planta__container {
+    position: relative;
+    width: 100%;
+    line-height: 0;
+  }
+
+  .planta__img,
+  .planta__container :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .planta__pins {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .planta__pin {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border-radius: 50%;
+    background: var(--color-bronze);
+    border: 2px solid white;
+    cursor: pointer;
+    pointer-events: all;
+    display: grid;
+    place-items: center;
+    color: white;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    line-height: 1;
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.2),
+      0 4px 12px rgba(0, 0, 0, 0.18);
+    transition:
+      transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+      background 0.3s ease,
+      box-shadow 0.3s ease;
+    z-index: 2;
+  }
+
+  .planta__pin:hover,
+  .planta__pin:focus-visible,
+  .planta__pin.is-active {
+    transform: translate(-50%, -50%) scale(1.3);
+    background: var(--color-ink);
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.25),
+      0 8px 24px rgba(0, 0, 0, 0.28);
+    outline: none;
+  }
+
+  .planta__pin-num {
+    pointer-events: none;
+  }
+
+  .planta__calibrar {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    right: 0.75rem;
+    z-index: 5;
+    background: rgba(10, 10, 10, 0.92);
+    color: white;
+    padding: 0.6rem 0.85rem;
+    font-family: ui-monospace, monospace;
+    font-size: 0.75rem;
+    border-radius: 6px;
+    pointer-events: none;
+  }
+
+  /* Panel */
+  .planta__panel {
+    background: var(--color-bone);
+    display: flex;
+    flex-direction: column;
+    border-radius: 14px;
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .planta__panel-default {
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1.25rem;
+    flex: 1;
+  }
+
+  .planta__panel-title {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 500;
+    margin: 0;
+    color: var(--color-ink);
+  }
+
+  .planta__panel-text {
+    font-family: var(--font-sans);
+    font-size: 0.92rem;
+    color: var(--color-stone);
+    line-height: 1.55;
+    max-width: 30ch;
+    margin: 0;
+  }
+
+  .planta__panel-legend {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem 0.85rem;
+  }
+
+  .planta__panel-legend li {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    color: var(--color-stone-deep);
+    line-height: 1.2;
+  }
+
+  .planta__legend-num {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-bronze);
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 600;
+  }
+
+  .planta__panel-card {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .planta__panel-card img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+  }
+
+  .planta__panel-info {
+    padding: 1.5rem 1.75rem;
+  }
+
+  .planta__panel-area {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-bronze);
+    margin-bottom: 0.5rem;
+  }
+
+  .planta__panel-name {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2vw, 1.7rem);
+    font-weight: 500;
+    margin: 0 0 0.85rem;
+    color: var(--color-ink);
+    line-height: 1.15;
+  }
+
+  .planta__panel-num {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--color-bronze);
+    color: white;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .planta__panel-desc {
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    color: var(--color-stone-deep);
+    line-height: 1.55;
+  }
+
+  @media (max-width: 1023px) {
+    .planta__panel { min-height: auto; }
+  }
+</style>
