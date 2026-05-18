@@ -1,6 +1,7 @@
 ---
 import '@fontsource-variable/inter';
 import '../styles/global.css';
+import ConversionTracking from '../components/ConversionTracking.astro';
 
 interface Props {
   title?: string;
@@ -77,6 +78,9 @@ const abVariant = Astro.url.pathname.includes('/v2') ? 'B' : 'A';
         </script>
       </>
     )}
+
+    <!-- Conversion tracking: contato_whatsapp + scroll_75 (+ Meta Pixel ready) -->
+    <ConversionTracking />
   </head>
   <body data-ab-variant={abVariant}>
     <slot />

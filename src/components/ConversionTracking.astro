@@ -1,0 +1,73 @@
+---
+// ConversionTracking.astro
+// Instrumentação de conversão GA4 para campanhas de tráfego pago (Google Ads, Meta).
+// Não altera layout nem conteúdo. Carregado no BaseLayout, logo após o snippet do GA4.
+//
+// Eventos disparados:
+//   - contato_whatsapp  → clique em a[href*="wa.me"]  (conversão principal)
+//   - scroll_75         → 75% da página rolada        (micro-conversão, sinal secundário)
+//
+// Pixel da Meta (fbq) é chamado com guarda `typeof === 'function'` —
+// não quebra no console se o Pixel ainda não estiver instalado.
+//
+// Astro <script> sem `is:inline` vira módulo deferido → o DOM já está pronto
+// quando `iniciar()` roda, sem precisar de DOMContentLoaded.
+---
+
+<script>
+  // Captura ab_variant do data-attribute no <body> (setado pelo BaseLayout)
+  function getAbVariant(): string {
+    return document.body.dataset.abVariant || 'A';
+  }
+
+  // --- Conversão principal: clique no WhatsApp ---
+  function registrarCliquesWhatsApp(): void {
+    document.querySelectorAll<HTMLAnchorElement>('a[href*="wa.me"]').forEach((el) => {
+      if (el.dataset.trackBound) return; // evita listener duplicado em rebind
+      el.dataset.trackBound = 'true';
+      el.addEventListener('click', () => {
+        const variant = getAbVariant();
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'contato_whatsapp', {
+            event_category: 'lead',
+            event_label: 'rua_da_passagem_149',
+            ab_variant: variant,
+            page_path: window.location.pathname,
+          });
+        }
+        if (typeof window.fbq === 'function') {
+          window.fbq('track', 'Contact');
+        }
+      });
+    });
+  }
+
+  // --- Micro-conversão: scroll de 75% (dispara uma única vez por page-load) ---
+  let scroll75Disparado = false;
+  function registrarScroll75(): void {
+    if (scroll75Disparado) return;
+    const alturaTotal = document.body.scrollHeight;
+    const posicao = window.scrollY + window.innerHeight;
+    if (alturaTotal > 0 && posicao / alturaTotal >= 0.75) {
+      scroll75Disparado = true;
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'scroll_75', {
+          event_category: 'engajamento',
+          event_label: 'rua_da_passagem_149',
+          ab_variant: getAbVariant(),
+        });
+      }
+    }
+  }
+
+  function iniciar(): void {
+    registrarCliquesWhatsApp();
+    registrarScroll75(); // checa posição inicial (caso usuário abra com hash/scroll restorado)
+    window.addEventListener('scroll', registrarScroll75, { passive: true });
+  }
+
+  iniciar();
+
+  // Hook para View Transitions caso sejam habilitadas no futuro — inofensivo se não usar.
+  document.addEventListener('astro:page-load', iniciar);
+</script>
