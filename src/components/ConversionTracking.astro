@@ -1,16 +1,16 @@
 ---
 // ConversionTracking.astro
-// Instrumentação de conversão GA4 para campanhas de tráfego pago (Google Ads, Meta).
-// Não altera layout nem conteúdo. Carregado no BaseLayout, logo após o snippet do GA4.
+// Instrumentação de engajamento para campanhas de tráfego pago.
+// Carregado no BaseLayout, logo após o snippet do GA4.
 //
-// Eventos disparados:
-//   - contato_whatsapp  → clique em a[href*="wa.me"]  (conversão principal)
-//   - scroll_75         → 75% da página rolada        (micro-conversão, sinal secundário)
+// Evento disparado:
+//   - scroll_75 → 75% da página rolada (micro-conversão, dispara 1x por page-load)
 //
-// Pixel da Meta (fbq) é chamado com guarda `typeof === 'function'` —
-// não quebra no console se o Pixel ainda não estiver instalado.
+// A conversão principal (clique no WhatsApp) é tratada pelo listener inline
+// `whatsapp_click` no BaseLayout — ele já roda em produção, está marcado como
+// Evento-chave no GA4 e tem o callback do Meta Pixel preparado.
 //
-// Astro <script> sem `is:inline` vira módulo deferido → o DOM já está pronto
+// Astro <script> sem `is:inline` vira módulo deferido → DOM já está pronto
 // quando `iniciar()` roda, sem precisar de DOMContentLoaded.
 ---
 
@@ -18,28 +18,6 @@
   // Captura ab_variant do data-attribute no <body> (setado pelo BaseLayout)
   function getAbVariant(): string {
     return document.body.dataset.abVariant || 'A';
-  }
-
-  // --- Conversão principal: clique no WhatsApp ---
-  function registrarCliquesWhatsApp(): void {
-    document.querySelectorAll<HTMLAnchorElement>('a[href*="wa.me"]').forEach((el) => {
-      if (el.dataset.trackBound) return; // evita listener duplicado em rebind
-      el.dataset.trackBound = 'true';
-      el.addEventListener('click', () => {
-        const variant = getAbVariant();
-        if (typeof window.gtag === 'function') {
-          window.gtag('event', 'contato_whatsapp', {
-            event_category: 'lead',
-            event_label: 'rua_da_passagem_149',
-            ab_variant: variant,
-            page_path: window.location.pathname,
-          });
-        }
-        if (typeof window.fbq === 'function') {
-          window.fbq('track', 'Contact');
-        }
-      });
-    });
   }
 
   // --- Micro-conversão: scroll de 75% (dispara uma única vez por page-load) ---
@@ -61,8 +39,7 @@
   }
 
   function iniciar(): void {
-    registrarCliquesWhatsApp();
-    registrarScroll75(); // checa posição inicial (caso usuário abra com hash/scroll restorado)
+    registrarScroll75(); // checa posição inicial (caso usuário abra com scroll restaurado)
     window.addEventListener('scroll', registrarScroll75, { passive: true });
   }
 
