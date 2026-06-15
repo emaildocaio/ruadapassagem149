@@ -51,6 +51,9 @@ const heroAlt = variant === 'real'
       <span class="hero__dot" aria-hidden="true"></span>
       <span>Aceita pet</span>
     </div>
+    <p class="hero__notice">
+      Venda direta com o proprietário — não somos imobiliária e não alugamos.
+    </p>
   </div>
 
   <div class="hero__scroll" data-hero-scroll aria-hidden="true">
@@ -180,6 +183,17 @@ const heroAlt = variant === 'real'
     opacity: 0.6;
   }
 
+  .hero__notice {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 350;
+    font-size: clamp(0.95rem, 1.15vw, 1.1rem);
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.82);
+    margin: 1.5rem 0 0;
+    max-width: 52ch;
+  }
+
   .hero__scroll {
     position: absolute;
     bottom: 1.5rem;
@@ -226,6 +240,10 @@ const heroAlt = variant === 'real'
       font-size: 0.68rem;
       letter-spacing: 0.14em;
       gap: 0.5rem;
+    }
+    .hero__notice {
+      font-size: 0.85rem;
+      margin-top: 1rem;
     }
     .hero__scroll {
       display: none;
