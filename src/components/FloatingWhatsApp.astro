@@ -52,6 +52,24 @@ const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
     pointer-events: auto;
   }
 
+  /* Pulsa por ~5s quando aparece — chama atenção sem ser irritante. */
+  .float-wa.is-visible.is-pulsing::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: #25D366;
+    opacity: 0.6;
+    animation: float-wa-pulse 2.2s ease-out 2;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  @keyframes float-wa-pulse {
+    0% { transform: scale(1); opacity: 0.55; }
+    100% { transform: scale(1.85); opacity: 0; }
+  }
+
   .float-wa.is-hidden {
     opacity: 0;
     transform: translateY(20px);
@@ -83,6 +101,9 @@ const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
     .float-wa.is-visible {
       transform: none;
     }
+    .float-wa.is-visible.is-pulsing::before {
+      animation: none;
+    }
   }
 </style>
 
@@ -91,11 +112,18 @@ const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
   const contato = document.getElementById('contato');
 
   if (fab) {
-    // Aparece após o usuário rolar 220px (~ saindo do hero).
-    // Mantém o primeiro impacto editorial limpo, mas garante CTA sempre acessível ao engajar.
+    // Aparece após o usuário rolar 80px — quase qualquer interação revela o CTA.
+    // O delay mínimo só evita aparecer "antes" do hero terminar de carregar.
+    let hasShown = false;
     const handleScroll = () => {
-      const scrolled = window.scrollY > 220;
+      const scrolled = window.scrollY > 80;
       fab.classList.toggle('is-visible', scrolled);
+      // Adiciona pulse na primeira aparição pra chamar atenção
+      if (scrolled && !hasShown) {
+        hasShown = true;
+        fab.classList.add('is-pulsing');
+        setTimeout(() => fab.classList.remove('is-pulsing'), 5500);
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
