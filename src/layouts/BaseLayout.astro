@@ -2,6 +2,7 @@
 import '@fontsource-variable/inter';
 import '../styles/global.css';
 import ConversionTracking from '../components/ConversionTracking.astro';
+import FloatingWhatsApp from '../components/FloatingWhatsApp.astro';
 
 interface Props {
   title?: string;
@@ -84,6 +85,8 @@ const abVariant = Astro.url.pathname.includes('/v2') ? 'B' : 'A';
   </head>
   <body data-ab-variant={abVariant}>
     <slot />
+
+    <FloatingWhatsApp />
 
     <script>
       import { initAll } from '../scripts/animations';
