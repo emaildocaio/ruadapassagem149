@@ -1,0 +1,411 @@
+---
+import { Image } from 'astro:assets';
+import heroImg from '../assets/fotos/apto-botafogo-58.jpg';
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Folheto — Rua da Passagem 149</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600&display=swap"
+    />
+
+    <style>
+      :root {
+        --canvas: oklch(97% 0.008 65);
+        --bone: oklch(93% 0.012 65);
+        --ink: oklch(22% 0.008 240);
+        --stone: oklch(58% 0.008 240);
+        --bronze: oklch(65% 0.09 65);
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background: #1a1817;
+        font-family: 'Inter', system-ui, sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 1rem;
+        gap: 2rem;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .instructions {
+        max-width: 1080px;
+        width: 100%;
+        color: oklch(80% 0 0);
+        font-size: 0.9rem;
+        line-height: 1.6;
+        padding: 1rem 1.5rem;
+        background: oklch(24% 0 0);
+        border-radius: 8px;
+        border: 1px solid oklch(35% 0 0);
+      }
+
+      .instructions strong {
+        color: white;
+      }
+
+      .instructions kbd {
+        display: inline-block;
+        background: oklch(30% 0 0);
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid oklch(40% 0 0);
+        font-family: ui-monospace, monospace;
+        font-size: 0.82em;
+        color: white;
+      }
+
+      /* Folheto — formato 4:5 (1080 × 1350) */
+      .folheto {
+        width: 1080px;
+        height: 1350px;
+        background: var(--canvas);
+        color: var(--ink);
+        display: grid;
+        grid-template-rows: 62% 38%;
+        overflow: hidden;
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+      }
+
+      .folheto__photo {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .folheto__photo :global(img) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .folheto__photo::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          transparent 60%,
+          rgba(0, 0, 0, 0.35) 100%
+        );
+        pointer-events: none;
+      }
+
+      .folheto__photo-eyebrow {
+        position: absolute;
+        left: 60px;
+        bottom: 40px;
+        z-index: 2;
+        display: inline-flex;
+        align-items: center;
+        gap: 1.2rem;
+        color: white;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem;
+        font-weight: 500;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+      }
+
+      .folheto__photo-num {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 1.6rem;
+        color: var(--bronze);
+        letter-spacing: 0;
+      }
+
+      .folheto__photo-divider {
+        display: inline-block;
+        width: 50px;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .folheto__body {
+        padding: 60px 70px 55px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto auto 1fr auto;
+        gap: 1.2rem 2rem;
+        align-items: start;
+      }
+
+      .folheto__title {
+        grid-column: 1 / -1;
+        font-family: 'Playfair Display', serif;
+        font-weight: 500;
+        font-size: 3.8rem;
+        line-height: 1;
+        letter-spacing: -0.025em;
+        margin: 0;
+        max-width: 18ch;
+      }
+
+      .folheto__title-it {
+        font-style: italic;
+        display: block;
+        font-weight: 400;
+      }
+
+      .folheto__specs {
+        grid-column: 1 / -1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem 1.2rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 1.05rem;
+        color: var(--ink);
+        margin-top: 0.2rem;
+      }
+
+      .folheto__spec {
+        display: inline-flex;
+        align-items: center;
+        gap: 1.2rem;
+      }
+
+      .folheto__spec + .folheto__spec::before {
+        content: '·';
+        color: var(--bronze);
+        opacity: 0.8;
+        font-family: 'Playfair Display', serif;
+        font-size: 1.4em;
+        line-height: 1;
+        display: inline-block;
+        margin-left: -0.7rem;
+      }
+
+      .folheto__spec strong {
+        font-weight: 600;
+      }
+
+      .folheto__architect {
+        grid-column: 1 / -1;
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 1.15rem;
+        color: var(--stone);
+        margin-top: 0.3rem;
+      }
+
+      .folheto__price {
+        grid-column: 1;
+        grid-row: 4;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        align-self: end;
+      }
+
+      .folheto__price-label {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.75rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--stone);
+        font-weight: 500;
+      }
+
+      .folheto__price-amount {
+        font-family: 'Playfair Display', serif;
+        font-weight: 500;
+        font-size: 3.5rem;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        color: var(--ink);
+      }
+
+      .folheto__price-note {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 1rem;
+        color: var(--stone);
+        margin-top: 0.2rem;
+      }
+
+      .folheto__qr {
+        grid-column: 2;
+        grid-row: 4;
+        align-self: end;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.7rem;
+      }
+
+      .folheto__qr-img {
+        width: 160px;
+        height: 160px;
+        background: white;
+        padding: 8px;
+        border: 1px solid oklch(88% 0 0);
+      }
+
+      .folheto__qr-img img {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      .folheto__qr-caption {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.68rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--stone);
+        font-weight: 500;
+      }
+
+      .folheto__footer {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 2rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid color-mix(in oklch, var(--ink), transparent 88%);
+        margin-top: 0.5rem;
+      }
+
+      .folheto__contact {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+
+      .folheto__contact-label {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.7rem;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--stone);
+        font-weight: 500;
+      }
+
+      .folheto__contact-value {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.35rem;
+        font-weight: 500;
+        color: var(--ink);
+      }
+
+      .folheto__url {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.85rem;
+        letter-spacing: 0.06em;
+        color: var(--stone);
+      }
+
+      .folheto__url strong {
+        color: var(--ink);
+        font-weight: 500;
+      }
+
+      @media print {
+        @page {
+          size: 1080px 1350px;
+          margin: 0;
+        }
+        body {
+          background: white;
+          padding: 0;
+          gap: 0;
+          display: block;
+        }
+        .instructions { display: none; }
+        .folheto {
+          box-shadow: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="instructions">
+      <strong>Como salvar como imagem:</strong>
+      &nbsp;·&nbsp; Mac: <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>4</kbd> → seleciona a área do folheto
+      &nbsp;·&nbsp; Print PDF: <kbd>Cmd</kbd> + <kbd>P</kbd> → "Salvar como PDF" (respeita o tamanho exato 1080×1350)
+      &nbsp;·&nbsp; DevTools: <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> → "Capture node screenshot" no elemento <code>.folheto</code>
+    </div>
+
+    <article class="folheto" aria-label="Folheto do apartamento Rua da Passagem 149">
+      <div class="folheto__photo">
+        <span class="folheto__photo-eyebrow" aria-hidden="true">
+          <span class="folheto__photo-num">149</span>
+          <span class="folheto__photo-divider"></span>
+          <span>Rua da Passagem · Botafogo · Rio de Janeiro</span>
+        </span>
+        <Image
+          src={heroImg}
+          alt="Living do apartamento com prateleiras em carvalho, mesa de jantar em mármore e teto em cimento queimado"
+          widths={[1080]}
+          format="jpg"
+          quality={92}
+        />
+      </div>
+
+      <div class="folheto__body">
+        <h1 class="folheto__title">
+          A casa que projetamos<span class="folheto__title-it">para morar.</span>
+        </h1>
+
+        <div class="folheto__specs">
+          <span class="folheto__spec"><strong>3 quartos</strong>&nbsp;(2 suítes)</span>
+          <span class="folheto__spec"><strong>94 m²</strong></span>
+          <span class="folheto__spec">Mobiliado</span>
+          <span class="folheto__spec">Sacada nos 3 quartos</span>
+          <span class="folheto__spec">5º andar · 1 vaga</span>
+        </div>
+
+        <p class="folheto__architect">
+          Reformado em 2023 · Projeto autoral de Rafael Ramos Arquitetura.
+        </p>
+
+        <div class="folheto__price">
+          <span class="folheto__price-label">Valor</span>
+          <span class="folheto__price-amount">R$ 2.360.000</span>
+          <span class="folheto__price-note">Venda direta com o proprietário · não é imobiliária · não alugamos</span>
+        </div>
+
+        <div class="folheto__qr">
+          <div class="folheto__qr-img">
+            <img
+              src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https%3A%2F%2Fwa.me%2F5521965210442%3Ftext%3DOl%25C3%25A1%2520Caio%2521%2520Vi%2520o%2520an%25C3%25BAncio%2520do%2520apartamento%2520na%2520Rua%2520da%2520Passagem%2520149%2520e%2520gostaria%2520de%2520agendar%2520uma%2520visita.&format=png&margin=0&ecc=M"
+              alt="QR code para conversa no WhatsApp com o proprietário"
+              width="300"
+              height="300"
+              loading="eager"
+            />
+          </div>
+          <span class="folheto__qr-caption">Escaneie · WhatsApp</span>
+        </div>
+
+        <footer class="folheto__footer">
+          <div class="folheto__contact">
+            <span class="folheto__contact-label">Contato</span>
+            <span class="folheto__contact-value">(21) 96521-0442 · Caio</span>
+          </div>
+          <div class="folheto__url">
+            fotos e detalhes:&nbsp;
+            <strong>emaildocaio.github.io/ruadapassagem149</strong>
+          </div>
+        </footer>
+      </div>
+    </article>
+  </body>
+</html>
