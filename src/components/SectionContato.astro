@@ -1,11 +1,13 @@
 ---
+const isCorretor = Astro.url.pathname.includes('/corretor');
+
 const whatsappNumber = '5521965210442';
 const whatsappMessage = encodeURIComponent(
   'Olá Caio! Vi o anúncio do apartamento na Rua da Passagem 149 e gostaria de agendar uma visita.'
 );
 const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
-const details = [
+const detailsProprietario = [
   { label: 'Modalidade', value: 'Venda direta com o proprietário · não é imobiliária · não alugamos' },
   { label: 'Endereço', value: 'Rua da Passagem, 149 · Botafogo · Rio de Janeiro' },
   { label: 'Valor', value: 'R$ 2.360.000' },
@@ -13,6 +15,17 @@ const details = [
   { label: 'Garagem', value: '1 vaga na escritura · livre de manobrista' },
   { label: 'WhatsApp', value: '+55 21 96521-0442' },
 ];
+
+const detailsCorretor = [
+  { label: 'Endereço', value: 'Rua da Passagem, 149 · Botafogo · Rio de Janeiro' },
+  { label: 'Valor', value: 'R$ 2.360.000' },
+  { label: 'Privativa', value: '94,15 m² · 3 quartos (2 suítes) com sacada · mobiliado' },
+  { label: 'Andar', value: '5º andar' },
+  { label: 'Garagem', value: '1 vaga na escritura · livre de manobrista' },
+  { label: 'Reforma', value: 'Projeto de Rafael Ramos Arq. · concluída em 2023' },
+];
+
+const details = isCorretor ? detailsCorretor : detailsProprietario;
 ---
 
 <section class="contato" id="contato" aria-labelledby="contato-title">
@@ -24,33 +37,37 @@ const details = [
     </span>
 
     <h2 id="contato-title" class="contato__title" data-reveal="text">
-      Vamos marcar uma visita?
+      {isCorretor ? 'Ficha do imóvel.' : 'Vamos marcar uma visita?'}
     </h2>
 
-    <p class="contato__lead" data-reveal="text">
-      Nós moramos no imóvel por um ano, mas estamos morando agora em outro
-      estado. A venda é direta com a gente — não somos imobiliária nem
-      corretora, e o imóvel não está disponível para locação. Me chama no
-      WhatsApp e a gente combina um horário que funcione pra você.
-    </p>
+    {!isCorretor && (
+      <>
+        <p class="contato__lead" data-reveal="text">
+          Nós moramos no imóvel por um ano, mas estamos morando agora em outro
+          estado. A venda é direta com a gente — não somos imobiliária nem
+          corretora, e o imóvel não está disponível para locação. Me chama no
+          WhatsApp e a gente combina um horário que funcione pra você.
+        </p>
 
-    <a
-      class="contato__cta"
-      href={whatsappLink}
-      target="_blank"
-      rel="noreferrer"
-      data-magnetic="0.25"
-      data-cursor="grow"
-      data-reveal="fade"
-      aria-label="Abrir conversa no WhatsApp"
-    >
-      <span class="contato__cta-text">Falar pelo WhatsApp</span>
-      <span class="contato__cta-arrow" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </span>
-    </a>
+        <a
+          class="contato__cta"
+          href={whatsappLink}
+          target="_blank"
+          rel="noreferrer"
+          data-magnetic="0.25"
+          data-cursor="grow"
+          data-reveal="fade"
+          aria-label="Abrir conversa no WhatsApp"
+        >
+          <span class="contato__cta-text">Falar pelo WhatsApp</span>
+          <span class="contato__cta-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+      </>
+    )}
 
     <ul class="contato__details" data-reveal="fade">
       {details.map((d) => (

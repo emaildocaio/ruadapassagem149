@@ -1,5 +1,7 @@
 ---
-const items = [
+const isCorretor = Astro.url.pathname.includes('/corretor');
+
+const baseItems = [
   'Botafogo',
   '149 · Rua da Passagem',
   '3 quartos',
@@ -11,10 +13,15 @@ const items = [
   'Porteira fechada',
   '1 vaga livre',
   'Sacada nos 3 quartos',
+];
+
+const proprietarioExtras = [
   'Venda direta com o proprietário',
   'Não é imobiliária',
   'Apenas venda · não alugamos',
 ];
+
+const items = isCorretor ? baseItems : [...baseItems, ...proprietarioExtras];
 // Duplicate to make the loop seamless
 const displayItems = [...items, ...items];
 ---
