@@ -13,8 +13,9 @@ const heroAlt = variant === 'real'
   ? 'Sala integrada com jantar, cozinha americana e sofá em primeiro plano, com plantas pendentes da estrutura metálica suspensa e teto em cimento queimado'
   : 'Living integrado com jantar, sofá e cozinha americana, com estrutura metálica suspensa, plantas pendentes e teto em cimento queimado';
 
-// Versão pra corretores omite o disclaimer "venda direta com o proprietário"
-const isCorretor = Astro.url.pathname.includes('/corretor');
+// Só a versão /vendadireta/ (proprietário) mostra o disclaimer "venda direta com o proprietário".
+// A raiz é neutra pra ser divulgada por corretores.
+const isVendaDireta = Astro.url.pathname.includes('/vendadireta');
 ---
 
 <section class="hero" data-hero aria-label="Apresentação do imóvel">
@@ -58,7 +59,7 @@ const isCorretor = Astro.url.pathname.includes('/corretor');
       <span class="hero__price-label">Valor</span>
       <span class="hero__price-amount">R$ 2.360.000</span>
     </p>
-    {!isCorretor && (
+    {isVendaDireta && (
       <p class="hero__notice">
         Venda direta com o proprietário — não somos imobiliária e não alugamos.
       </p>

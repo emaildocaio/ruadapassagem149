@@ -1,5 +1,5 @@
 ---
-const isCorretor = Astro.url.pathname.includes('/corretor');
+const isVendaDireta = Astro.url.pathname.includes('/vendadireta');
 
 const stats = [
   { value: 94,  decimals: 0, suffix: 'm²',     label: 'Área privativa' },
@@ -43,7 +43,7 @@ const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
       ))}
     </ul>
 
-    {!isCorretor && (
+    {isVendaDireta && (
       <aside class="stats__cta" data-reveal="fade">
         <p class="stats__cta-text">
           Os números traduzem a planta — o espaço só se entende em pessoa.

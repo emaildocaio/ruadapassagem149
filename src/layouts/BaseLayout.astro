@@ -27,8 +27,9 @@ const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID || 'G-0S8KEWFSWB';
 // Identifica variante A/B baseado no path (/ = A, /v2/ = B)
 const abVariant = Astro.url.pathname.includes('/v2') ? 'B' : 'A';
 
-// Versão pra corretores é neutra — sem botão flutuante de WhatsApp nem listener de conversão do proprietário.
-const isCorretor = Astro.url.pathname.includes('/corretor');
+// Só a versão /vendadireta/ (proprietário) mostra o botão flutuante de WhatsApp.
+// A raiz é neutra pra ser divulgada por corretores.
+const isVendaDireta = Astro.url.pathname.includes('/vendadireta');
 ---
 
 <!doctype html>
@@ -89,7 +90,7 @@ const isCorretor = Astro.url.pathname.includes('/corretor');
   <body data-ab-variant={abVariant}>
     <slot />
 
-    {!isCorretor && <FloatingWhatsApp />}
+    {isVendaDireta && <FloatingWhatsApp />}
 
     <script>
       import { initAll } from '../scripts/animations';

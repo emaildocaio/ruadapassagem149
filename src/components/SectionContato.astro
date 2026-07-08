@@ -1,5 +1,5 @@
 ---
-const isCorretor = Astro.url.pathname.includes('/corretor');
+const isVendaDireta = Astro.url.pathname.includes('/vendadireta');
 
 const whatsappNumber = '5521965210442';
 const whatsappMessage = encodeURIComponent(
@@ -25,7 +25,7 @@ const detailsCorretor = [
   { label: 'Reforma', value: 'Projeto de Rafael Ramos Arq. · concluída em 2023' },
 ];
 
-const details = isCorretor ? detailsCorretor : detailsProprietario;
+const details = isVendaDireta ? detailsProprietario : detailsCorretor;
 ---
 
 <section class="contato" id="contato" aria-labelledby="contato-title">
@@ -37,10 +37,10 @@ const details = isCorretor ? detailsCorretor : detailsProprietario;
     </span>
 
     <h2 id="contato-title" class="contato__title" data-reveal="text">
-      {isCorretor ? 'Ficha do imóvel.' : 'Vamos marcar uma visita?'}
+      {isVendaDireta ? 'Vamos marcar uma visita?' : 'Ficha do imóvel.'}
     </h2>
 
-    {!isCorretor && (
+    {isVendaDireta && (
       <>
         <p class="contato__lead" data-reveal="text">
           Nós moramos no imóvel por um ano, mas estamos morando agora em outro

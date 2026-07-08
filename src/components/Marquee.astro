@@ -1,5 +1,5 @@
 ---
-const isCorretor = Astro.url.pathname.includes('/corretor');
+const isVendaDireta = Astro.url.pathname.includes('/vendadireta');
 
 const baseItems = [
   'Botafogo',
@@ -21,7 +21,7 @@ const proprietarioExtras = [
   'Apenas venda · não alugamos',
 ];
 
-const items = isCorretor ? baseItems : [...baseItems, ...proprietarioExtras];
+const items = isVendaDireta ? [...baseItems, ...proprietarioExtras] : baseItems;
 // Duplicate to make the loop seamless
 const displayItems = [...items, ...items];
 ---
