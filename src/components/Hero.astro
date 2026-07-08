@@ -40,10 +40,21 @@ const isVendaDireta = Astro.url.pathname.includes('/vendadireta');
 
   <div class="hero__content">
     <h1 class="hero__title">
-      <span class="hero__title-line" data-hero-line>A casa que projetamos</span>
-      <span class="hero__title-line hero__title-line--italic" data-hero-line>para morar.</span>
+      {isVendaDireta ? (
+        <>
+          <span class="hero__title-line" data-hero-line>A casa que projetamos</span>
+          <span class="hero__title-line hero__title-line--italic" data-hero-line>para morar.</span>
+        </>
+      ) : (
+        <>
+          <span class="hero__title-line" data-hero-line>Um endereço projetado</span>
+          <span class="hero__title-line hero__title-line--italic" data-hero-line>para morar.</span>
+        </>
+      )}
     </h1>
-    <p class="hero__sub" data-hero-sub>Pronta para ser a sua.</p>
+    <p class="hero__sub" data-hero-sub>
+      {isVendaDireta ? 'Pronta para ser a sua.' : 'Pronto para receber você.'}
+    </p>
     <div class="hero__meta" data-hero-meta>
       <span>3 quartos</span>
       <span class="hero__dot" aria-hidden="true"></span>

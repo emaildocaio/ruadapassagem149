@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import projetoImg from '../assets/fotos/apto-botafogo-56.jpg';
+
+const isVendaDireta = Astro.url.pathname.includes('/vendadireta');
 ---
 
 <section class="projeto" aria-labelledby="projeto-title">
@@ -16,12 +18,22 @@ import projetoImg from '../assets/fotos/apto-botafogo-56.jpg';
         Concreto, madeira, luz e silêncio.
       </h2>
 
-      <p class="projeto__body" data-reveal="text">
-        Recebemos o apartamento em 2023, prédio recém-entregue, e reformamos
-        o imóvel com o arquiteto Rafael Ramos — marcenaria autoral, estrutura
-        metálica preta, paleta natural. Cada detalhe foi pensado para receber
-        a luz natural: Botafogo é luminoso, e essa casa abraça isso.
-      </p>
+      {isVendaDireta ? (
+        <p class="projeto__body" data-reveal="text">
+          Recebemos o apartamento em 2023, prédio recém-entregue, e reformamos
+          o imóvel com o arquiteto Rafael Ramos — marcenaria autoral, estrutura
+          metálica preta, paleta natural. Cada detalhe foi pensado para receber
+          a luz natural: Botafogo é luminoso, e essa casa abraça isso.
+        </p>
+      ) : (
+        <p class="projeto__body" data-reveal="text">
+          Reforma assinada pelo arquiteto Rafael Ramos, concluída em 2023 sobre
+          unidade original recém-entregue. Marcenaria autoral em carvalho,
+          estrutura metálica preta e paleta cromática que dialoga com a
+          luminosidade natural de Botafogo — cada acabamento foi especificado
+          para valorizar a entrada de luz e a leitura do espaço.
+        </p>
+      )}
 
       <ul class="projeto__materials" data-reveal="fade">
         <li>

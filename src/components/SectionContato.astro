@@ -33,7 +33,7 @@ const details = isVendaDireta ? detailsProprietario : detailsCorretor;
     <span class="contato__eyebrow" data-reveal="fade">
       <span class="contato__num">08</span>
       <span class="contato__divider"></span>
-      <span>Contato</span>
+      <span>{isVendaDireta ? 'Contato' : 'Ficha'}</span>
     </span>
 
     <h2 id="contato-title" class="contato__title" data-reveal="text">
@@ -192,8 +192,20 @@ const details = isVendaDireta ? detailsProprietario : detailsCorretor;
     padding: 0;
     margin: 5rem 0 0;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     border-top: 1px solid color-mix(in oklch, var(--color-ink), transparent 88%);
+  }
+
+  @media (max-width: 900px) {
+    .contato__details {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .contato__details {
+      grid-template-columns: 1fr;
+    }
   }
 
   .contato__detail {
@@ -202,12 +214,11 @@ const details = isVendaDireta ? detailsProprietario : detailsCorretor;
     border-right: 1px solid color-mix(in oklch, var(--color-ink), transparent 92%);
   }
 
-  .contato__detail:first-child {
-    padding-left: 0;
-  }
-
-  .contato__detail:last-child {
-    border-right: 0;
+  /* Zera bordas nas colunas da direita conforme o layout muda */
+  .contato__detail:nth-child(3n) { border-right: 0; }
+  @media (max-width: 900px) {
+    .contato__detail:nth-child(3n) { border-right: 1px solid color-mix(in oklch, var(--color-ink), transparent 92%); }
+    .contato__detail:nth-child(2n) { border-right: 0; }
   }
 
   .contato__detail-label {

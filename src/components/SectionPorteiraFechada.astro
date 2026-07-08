@@ -1,4 +1,6 @@
 ---
+const isVendaDireta = Astro.url.pathname.includes('/vendadireta');
+
 const categorias = [
   {
     titulo: 'Climatização',
@@ -45,11 +47,20 @@ const categorias = [
         Entrar e morar.
       </h2>
 
-      <p class="porteira__lead" data-reveal="text">
-        A venda é com o imóvel <em>mobiliado por completo</em> — móveis,
-        eletrodomésticos, ar-condicionado, home office equipado e uma vaga
-        livre de manobrista. Chega com a mala, dorme na primeira noite.
-      </p>
+      {isVendaDireta ? (
+        <p class="porteira__lead" data-reveal="text">
+          A venda é com o imóvel <em>mobiliado por completo</em> — móveis,
+          eletrodomésticos, ar-condicionado, home office equipado e uma vaga
+          livre de manobrista. Chega com a mala, dorme na primeira noite.
+        </p>
+      ) : (
+        <p class="porteira__lead" data-reveal="text">
+          Unidade entregue <em>mobiliada por completo</em> — móveis,
+          eletrodomésticos, ar-condicionado em todos os cômodos, home office
+          equipado e uma vaga livre de manobrista. Pronta para ocupação
+          imediata.
+        </p>
+      )}
     </header>
 
     <ul class="porteira__grid">
